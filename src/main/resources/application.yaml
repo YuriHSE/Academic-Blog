@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/security_db
+    username: postgres
+    password: watermelon
+  jpa:
+    hibernate:
+      ddl-auto: update
+upload:
+  path: /Users/yurishcherbakov/Desktop/uploads
