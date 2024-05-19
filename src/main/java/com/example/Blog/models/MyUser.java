@@ -16,6 +16,8 @@ public class MyUser{ //нельзя имплементировать userDetails
     private String password;
     private String roles;
 
+    private String email;
+    private String activationCode;
 //    @OneToMany(mappedBy = "author")
 //    //@JoinColumn(name = "user_id")
 //    private Set<Post> posts;

@@ -3,14 +3,18 @@ package com.example.Blog.controllers;
 import com.example.Blog.models.MyUser;
 import com.example.Blog.repository.UserRepository;
 import com.example.Blog.services.AppService;
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
 //скорее всего ерунда(лучше рассмотерть работу json с html)
 //но здесь у нас обычный контроллер
 @Controller
@@ -39,10 +43,22 @@ public class RegistrationController {
             return "registration"; //потом добавим страницу ошибки
         }
         user.setRoles("ROLE_USER");
+        user.setActivationCode(UUID.randomUUID().toString());
         appService.addUser(user);
-//        model.put("error", user.getName() + ' ' + user.getPassword() + ' ' + user.getRoles() + ' ' + user.getId());
-//        return "test";
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code) {
+        boolean isActivated = appService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("message", "User successfully activated");
+        } else {
+            model.addAttribute("message", "Activation code is not found!");
+        }
+
+        return "login";
     }
 }
