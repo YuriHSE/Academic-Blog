@@ -34,7 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {//HttpSecurity - позволяет конфигурировать аутентификацию и авторизацию http запросов
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {//HttpSecurity - позволяет конфигурировать аутентификацию и авторизацию http запросов, для того чтобы создать свой фильтр или цепочку фильтров используется интерфейс securityfolterchaim(для того. чтобы можно было натсроить доступы к старницам)
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/apps/blog/add", "api/v1/apps/blog/{id}/edit", "api/v1/apps/blog/{id}/remove").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/apps/admin/**").hasRole("ADMIN")
@@ -46,7 +46,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider() { //провайдер, реализующий аутенфикацию(механизм, с помощью котрого вызывающий абонент, доказывают, что они действуют от именни конкретных пользователей) //используется для подтверждения личности пользователя
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(); //DaoAuthenticationProvider - реализация провайдера, которая реализует UserDetailService and PasswordEncoder для аутентификации имени пользователя и пароля
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
